@@ -41,11 +41,11 @@ check_docker() {
 check_env() {
     if [ ! -f ".env" ]; then
         print_warning ".env not found. Creating from template..."
-        if [ -f "env.example" ]; then
-            cp env.example .env
+        if [ -f ".env.example" ]; then
+            cp .env.example .env
             print_warning "Please edit .env with your actual values before deploying."
         else
-            print_error "env.example not found. Please create .env manually."
+            print_error ".env.example not found. Please create .env manually."
             exit 1
         fi
     fi
