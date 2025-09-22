@@ -12,7 +12,7 @@ services:
       # Explicitly reference the secret from the shell environment
       - JWT_SECRET=${JWT_SECRET}
     env_file:
-      - .env.prod
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://capital-marketplace-frontend:3000/api/health"]

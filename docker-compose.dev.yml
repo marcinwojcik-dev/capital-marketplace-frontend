@@ -12,7 +12,7 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
       - JWT_SECRET=${JWT_SECRET:-your-dev-secret}
     env_file:
-      - .env.local
+      - .env
     volumes:
       - .:/app
       - /app/node_modules

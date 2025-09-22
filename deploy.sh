@@ -37,15 +37,15 @@ check_docker() {
     fi
 }
 
-# Function to check if .env.local exists
+# Function to check if .env exists
 check_env() {
-    if [ ! -f ".env.local" ]; then
-        print_warning ".env.local not found. Creating from template..."
+    if [ ! -f ".env" ]; then
+        print_warning ".env not found. Creating from template..."
         if [ -f "env.example" ]; then
-            cp env.example .env.local
-            print_warning "Please edit .env.local with your actual values before deploying."
+            cp env.example .env
+            print_warning "Please edit .env with your actual values before deploying."
         else
-            print_error "env.example not found. Please create .env.local manually."
+            print_error "env.example not found. Please create .env manually."
             exit 1
         fi
     fi
@@ -58,12 +58,6 @@ deploy_dev() {
     check_env
     
     # Inside the deploy_dev() function
-    if [ -z "$JWT_SECRET" ]; then
-        print_warning "JWT_SECRET not set. Using a fallback for development."
-        export JWT_SECRET="your-dev-secret"
-    fi
-
-
     print_status "Building and starting containers..."
     docker compose -f docker-compose.dev.yml up --build -d
     
@@ -80,12 +74,6 @@ deploy_prod() {
     print_status "Starting production deployment with nginx..."
     check_docker
     check_env
-    
-    # Check if the secret is set before deploying
-    if [ -z "$JWT_SECRET" ]; then
-        print_error "JWT_SECRET environment variable is not set. Aborting."
-        exit 1
-    fi
     
     print_status "Building and starting production containers..."
     docker compose -f docker-compose.prod.yml up --build -d
